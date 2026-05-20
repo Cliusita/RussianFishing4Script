@@ -34,7 +34,7 @@ BAD_CAST_DELAY = 1
 WEAR_TEXT_UPDATE_DELAY = 2
 GET_DIGGING_TOOL_DELAY = 3
 CLICK_LOCK_DURATION = 2.2
-TAG_ANIMATION_DELAY = 4
+TAG_ANIMATION_DELAY = 10
 DROP_ROD_DELAY = 4
 TICKET_EXPIRE_DELAY = 8
 DISCONNECTED_DELAY = 8
@@ -838,12 +838,12 @@ class Player:
     def handle_fish(self) -> None:
         if not self.detection.is_fish_captured():
             return
-        if not self.cfg.ARGS.NO_ANIMATION:
+        if self.cfg.BOT.CATCH_SCREEN_STYLE == "animated":
             sleep(add_jitter(LOOP_DELAY))  # it's a slow animation ;)
         logger.info("Handling fish")
         with self.hold_keys(mouse=False, shift=False):
             self.handle_events()
-            if not self.cfg.ARGS.NO_ANIMATION:
+            if self.cfg.BOT.CATCH_SCREEN_STYLE == "animated":
                 sleep(TAG_ANIMATION_DELAY)
             self._handle_fish()
             # Avoid wrong cast hour
